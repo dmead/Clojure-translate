@@ -1,0 +1,43 @@
+{-- 
+Sexp.hs                                                                                                                                                     --}
+
+module Clojure.Syntax where
+
+import Data.List
+import System.IO
+
+data Package = Package String [Sexp] 
+
+data Pattern = Pat [Atom] | Ptrue
+               deriving (Show)
+
+data Atom = Lit Char | String String | Ident String | Var String | Symbol String
+     deriving (Eq, Show)
+
+data Sexp = Atomic Atom
+           | IF Sexp Sexp Sexp             --if expr then expr else expr
+           | Apply Sexp Sexp               --use this for all function calls
+           | InfixApply Sexp Sexp Sexp     --infix function calls
+           | Func Atom  Pattern [(Pattern, Sexp)] --function def and it's pattern cases
+           | List [Sexp]                   --regular s-expression list
+           | Nil                           --the empty list
+
+indent x = replicate  x ' '
+
+
+
+{-
+
+add = putStr $ gen 
+    (Func (Ident "add") (Pat [Var "x", Var "y"])
+          [(Pat [Var "x", Var "y"], 
+                InfixApply (Atomic $ Ident "x") (Atomic $Ident "+") (Atomic $ Ident "y"))           ])
+addA = putStr $ gen 
+    (Func (Ident "add") (Pat [Var "x", Var "y"])
+          [(Pat [Var "x", Var "y"], 
+                InfixApply (Atomic $ Ident "x") (Atomic $Ident "+") (Atomic $ Ident "y")), 
+           (Ptrue, (Atomic (Ident "true")))])
+
+-}
+
+                     
