@@ -1,0 +1,496 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--Rendered using the Haskell Html Library v0.2-->
+<HTML
+><HEAD
+><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"
+><TITLE
+>Clojure.CodeGen</TITLE
+><LINK HREF="haddock.css" REL="stylesheet" TYPE="text/css"
+><SCRIPT SRC="haddock-util.js" TYPE="text/javascript"
+></SCRIPT
+><SCRIPT TYPE="text/javascript"
+>window.onload = function () {setSynopsis("mini_Clojure-CodeGen.html")};</SCRIPT
+></HEAD
+><BODY
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="topbar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><IMG SRC="haskell_icon.gif" WIDTH="16" HEIGHT="16" ALT=" "
+></TD
+><TD CLASS="title"
+></TD
+><TD CLASS="topbut"
+><A HREF="index.html"
+>Contents</A
+></TD
+><TD CLASS="topbut"
+><A HREF="doc-index.html"
+>Index</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="modulebar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><FONT SIZE="6"
+>Clojure.CodeGen</FONT
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Description</TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>The CodeGen module provides the transformer from a clojure AST into executeable code
+</P
+><P
+>class instances for Generateable of clojure ASTS are provided
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Synopsis</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+>  <A HREF="#t%3AGenerateable"
+>Generateable</A
+> a  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agen"
+>gen</A
+> :: a -&gt; String</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AgenNamespace"
+>genNamespace</A
+> :: <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+> -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agensexp"
+>gensexp</A
+> :: <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agenpair"
+>genpair</A
+> :: (<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>) -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agenbindpair"
+>genbindpair</A
+> :: [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)] -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agencondpair"
+>gencondpair</A
+> :: [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)] -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agenfunction"
+>genfunction</A
+> :: <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> -&gt; [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)] -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Agenatom"
+>genatom</A
+> :: <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+> -&gt; String</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Documentation</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+>  <A NAME="t:Generateable"
+><A NAME="t%3AGenerateable"
+></A
+></A
+><B
+>Generateable</B
+> a  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+><P
+>The <TT
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+></TT
+> class is used for types representing clojure ASTS 
+ which we want to traxnsform into executable code
+</P
+><P
+>Every dependant type of a clojure AST is generateable
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+>Methods</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A NAME="v:gen"
+><A NAME="v%3Agen"
+></A
+></A
+><B
+>gen</B
+> :: a -&gt; String</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Generateable')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Generateable" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+> <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+> <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:genNamespace"
+><A NAME="v%3AgenNamespace"
+></A
+></A
+><B
+>genNamespace</B
+> :: <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+> -&gt; String</TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+><TT
+><A HREF="Clojure-CodeGen.html#v%3AgenNamespace"
+>genNamespace</A
+></TT
+> converts the AST of a clojure namespace to executeable code
+</P
+><P
+>for now, namespace constructs are ommited for simplicity
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:gensexp"
+><A NAME="v%3Agensexp"
+></A
+></A
+><B
+>gensexp</B
+> :: <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+><TT
+><A HREF="Clojure-CodeGen.html#v%3Agensexp"
+>gensexp</A
+></TT
+> converts the AST of an S-expression into executable code
+</P
+><P
+>Each special form for clojure needs it's own forms, so we'll generate the code accordingly
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:genpair"
+><A NAME="v%3Agenpair"
+></A
+></A
+><B
+>genpair</B
+> :: (<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>) -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:genbindpair"
+><A NAME="v%3Agenbindpair"
+></A
+></A
+><B
+>genbindpair</B
+> :: [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)] -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:gencondpair"
+><A NAME="v%3Agencondpair"
+></A
+></A
+><B
+>gencondpair</B
+> :: [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)] -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:genfunction"
+><A NAME="v%3Agenfunction"
+></A
+></A
+><B
+>genfunction</B
+> :: <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> -&gt; [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)] -&gt; Int -&gt; String</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:genatom"
+><A NAME="v%3Agenatom"
+></A
+></A
+><B
+>genatom</B
+> :: <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+> -&gt; String</TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+><TT
+><A HREF="Clojure-CodeGen.html#v%3Agenatom"
+>genatom</A
+></TT
+> generates the the code for  non list items in an s-expression
+</P
+><P
+>as in the list
+</P
+><PRE
+> ((1 2 3) 1 2.0 4 fifty nil)
+</PRE
+><P
+>the atomic parts are 1,2,3 1, 2.0, 4 and fifty
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="botbar"
+>Produced by <A HREF="http://www.haskell.org/haddock/"
+>Haddock</A
+> version 2.4.2</TD
+></TR
+></TABLE
+></BODY
+></HTML
+>

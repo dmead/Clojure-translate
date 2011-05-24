@@ -1,0 +1,1309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--Rendered using the Haskell Html Library v0.2-->
+<HTML
+><HEAD
+><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"
+><TITLE
+>Clojure.Syntax</TITLE
+><LINK HREF="haddock.css" REL="stylesheet" TYPE="text/css"
+><SCRIPT SRC="haddock-util.js" TYPE="text/javascript"
+></SCRIPT
+><SCRIPT TYPE="text/javascript"
+>window.onload = function () {setSynopsis("mini_Clojure-Syntax.html")};</SCRIPT
+></HEAD
+><BODY
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="topbar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><IMG SRC="haskell_icon.gif" WIDTH="16" HEIGHT="16" ALT=" "
+></TD
+><TD CLASS="title"
+></TD
+><TD CLASS="topbut"
+><A HREF="index.html"
+>Contents</A
+></TD
+><TD CLASS="topbut"
+><A HREF="doc-index.html"
+>Index</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="modulebar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><FONT SIZE="6"
+>Clojure.Syntax</FONT
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Description</TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>The Syntax module provides an AST in types of (a subset of) clojure
+</P
+><P
+>These types express the structure of s-expressions while having special forms for
+things like function defintition, patterns, pattern matching and different types of list atoms.
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Synopsis</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3ANamespace"
+>Namespace</A
+>  = <A HREF="#v%3ANamespace"
+>Namespace</A
+> String [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3APattern"
+>Pattern</A
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>= <A HREF="#v%3APat"
+>Pat</A
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3APtrue"
+>Ptrue</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3AStmt"
+>Stmt</A
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>= <A HREF="#v%3AGen"
+>Gen</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AQualifier"
+>Qualifier</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ALetStmt"
+>LetStmt</A
+> <A HREF="Clojure-Syntax.html#t%3ABinds"
+>Binds</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3AAtom"
+>Atom</A
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>= <A HREF="#v%3ALit"
+>Lit</A
+> Char</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AString"
+>String</A
+> String</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AIdent"
+>Ident</A
+> String</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AVar"
+>Var</A
+> String</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ASymbol"
+>Symbol</A
+> String</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AInt"
+>Int</A
+> Integer</TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3ASexp"
+>Sexp</A
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>= <A HREF="#v%3AAtomic"
+>Atomic</A
+> <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AWildCard"
+>WildCard</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AVoid"
+>Void</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ACons"
+>Cons</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ALambda"
+>Lambda</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AIF"
+>IF</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AApply"
+>Apply</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AInfixApply"
+>InfixApply</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3APInfixApply"
+>PInfixApply</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AFunc"
+>Func</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AList"
+>List</A
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ATuple"
+>Tuple</A
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3APtuple"
+>Ptuple</A
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3APlist"
+>Plist</A
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3AListComp"
+>ListComp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> [<A HREF="Clojure-Syntax.html#t%3AStmt"
+>Stmt</A
+>]</TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ANil"
+>Nil</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ALet"
+>Let</A
+> <A HREF="Clojure-Syntax.html#t%3ABinds"
+>Binds</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>| <A HREF="#v%3ADo"
+>Do</A
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3ABinds"
+>Binds</A
+>  = <A HREF="#v%3ABinds"
+>Binds</A
+> [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)]</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Documentation</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Namespace"
+><A NAME="t%3ANamespace"
+></A
+></A
+><B
+>Namespace</B
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+>a container for clojure namespaces.    
+for now, this is just a name with a list of S-expressions
+</TD
+></TR
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Namespace"
+><A NAME="v%3ANamespace"
+></A
+></A
+><B
+>Namespace</B
+> String [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Namespace')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Namespace" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>Eq <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>Show <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+> <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Pattern"
+><A NAME="t%3APattern"
+></A
+></A
+><B
+>Pattern</B
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+>Pattern is a container for pattern lists
+</TD
+></TR
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Pat"
+><A NAME="v%3APat"
+></A
+></A
+><B
+>Pat</B
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Ptrue"
+><A NAME="v%3APtrue"
+></A
+></A
+><B
+>Ptrue</B
+></TD
+><TD CLASS="rdoc"
+>a catch-call form for patterns
+</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Pattern')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Pattern" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>Eq <A HREF="Clojure-Syntax.html#t%3APattern"
+>Pattern</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>Show <A HREF="Clojure-Syntax.html#t%3APattern"
+>Pattern</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Stmt"
+><A NAME="t%3AStmt"
+></A
+></A
+><B
+>Stmt</B
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+>Atom is a type for list contents that have a primative type
+</TD
+></TR
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Gen"
+><A NAME="v%3AGen"
+></A
+></A
+><B
+>Gen</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Qualifier"
+><A NAME="v%3AQualifier"
+></A
+></A
+><B
+>Qualifier</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:LetStmt"
+><A NAME="v%3ALetStmt"
+></A
+></A
+><B
+>LetStmt</B
+> <A HREF="Clojure-Syntax.html#t%3ABinds"
+>Binds</A
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Stmt')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Stmt" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>Eq <A HREF="Clojure-Syntax.html#t%3AStmt"
+>Stmt</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>Show <A HREF="Clojure-Syntax.html#t%3AStmt"
+>Stmt</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Atom"
+><A NAME="t%3AAtom"
+></A
+></A
+><B
+>Atom</B
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Lit"
+><A NAME="v%3ALit"
+></A
+></A
+><B
+>Lit</B
+> Char</TD
+><TD CLASS="rdoc"
+>a literal character inside an S-exp
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:String"
+><A NAME="v%3AString"
+></A
+></A
+><B
+>String</B
+> String</TD
+><TD CLASS="rdoc"
+>A Primative String     
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Ident"
+><A NAME="v%3AIdent"
+></A
+></A
+><B
+>Ident</B
+> String</TD
+><TD CLASS="rdoc"
+>Idenitifer For Named Functions And Data structures
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Var"
+><A NAME="v%3AVar"
+></A
+></A
+><B
+>Var</B
+> String</TD
+><TD CLASS="rdoc"
+>identifier for variables
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Symbol"
+><A NAME="v%3ASymbol"
+></A
+></A
+><B
+>Symbol</B
+> String</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Int"
+><A NAME="v%3AInt"
+></A
+></A
+><B
+>Int</B
+> Integer</TD
+><TD CLASS="rdoc"
+>a single character used for operators
+</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Atom')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Atom" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>Eq <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>Show <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+> <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Sexp"
+><A NAME="t%3ASexp"
+></A
+></A
+><B
+>Sexp</B
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+>Sexp is the primary representation for S-expressions
+   Normally, an S-expression is a s
+</TD
+></TR
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Atomic"
+><A NAME="v%3AAtomic"
+></A
+></A
+><B
+>Atomic</B
+> <A HREF="Clojure-Syntax.html#t%3AAtom"
+>Atom</A
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:WildCard"
+><A NAME="v%3AWildCard"
+></A
+></A
+><B
+>WildCard</B
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Void"
+><A NAME="v%3AVoid"
+></A
+></A
+><B
+>Void</B
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Cons"
+><A NAME="v%3ACons"
+></A
+></A
+><B
+>Cons</B
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Lambda"
+><A NAME="v%3ALambda"
+></A
+></A
+><B
+>Lambda</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+>cons with it's element as a general sexp
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:IF"
+><A NAME="v%3AIF"
+></A
+></A
+><B
+>IF</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+>if expr then expr else expr (conditionals)
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Apply"
+><A NAME="v%3AApply"
+></A
+></A
+><B
+>Apply</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+>a general form for function application
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:InfixApply"
+><A NAME="v%3AInfixApply"
+></A
+></A
+><B
+>InfixApply</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:PInfixApply"
+><A NAME="v%3APInfixApply"
+></A
+></A
+><B
+>PInfixApply</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+>a general form for infix function calls
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Func"
+><A NAME="v%3AFunc"
+></A
+></A
+><B
+>Func</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)]</TD
+><TD CLASS="rdoc"
+>function def and it's pattern cases
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:List"
+><A NAME="v%3AList"
+></A
+></A
+><B
+>List</B
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+>regular s-expression list
+</TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Tuple"
+><A NAME="v%3ATuple"
+></A
+></A
+><B
+>Tuple</B
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Ptuple"
+><A NAME="v%3APtuple"
+></A
+></A
+><B
+>Ptuple</B
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Plist"
+><A NAME="v%3APlist"
+></A
+></A
+><B
+>Plist</B
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:ListComp"
+><A NAME="v%3AListComp"
+></A
+></A
+><B
+>ListComp</B
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+> [<A HREF="Clojure-Syntax.html#t%3AStmt"
+>Stmt</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Nil"
+><A NAME="v%3ANil"
+></A
+></A
+><B
+>Nil</B
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Let"
+><A NAME="v%3ALet"
+></A
+></A
+><B
+>Let</B
+> <A HREF="Clojure-Syntax.html#t%3ABinds"
+>Binds</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="arg"
+><A NAME="v:Do"
+><A NAME="v%3ADo"
+></A
+></A
+><B
+>Do</B
+> [<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Sexp')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Sexp" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>Eq <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>Show <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-CodeGen.html#t%3AGenerateable"
+>Generateable</A
+> <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Binds"
+><A NAME="t%3ABinds"
+></A
+></A
+><B
+>Binds</B
+>  </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Binds"
+><A NAME="v%3ABinds"
+></A
+></A
+><B
+>Binds</B
+> [(<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)]</TD
+><TD CLASS="rdoc"
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Binds')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Binds" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>Eq <A HREF="Clojure-Syntax.html#t%3ABinds"
+>Binds</A
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+>Show <A HREF="Clojure-Syntax.html#t%3ABinds"
+>Binds</A
+></TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="botbar"
+>Produced by <A HREF="http://www.haskell.org/haddock/"
+>Haddock</A
+> version 2.4.2</TD
+></TR
+></TABLE
+></BODY
+></HTML
+>

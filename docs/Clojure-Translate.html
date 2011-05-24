@@ -1,0 +1,465 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--Rendered using the Haskell Html Library v0.2-->
+<HTML
+><HEAD
+><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"
+><TITLE
+>Clojure.Translate</TITLE
+><LINK HREF="haddock.css" REL="stylesheet" TYPE="text/css"
+><SCRIPT SRC="haddock-util.js" TYPE="text/javascript"
+></SCRIPT
+><SCRIPT TYPE="text/javascript"
+>window.onload = function () {setSynopsis("mini_Clojure-Translate.html")};</SCRIPT
+></HEAD
+><BODY
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="topbar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><IMG SRC="haskell_icon.gif" WIDTH="16" HEIGHT="16" ALT=" "
+></TD
+><TD CLASS="title"
+></TD
+><TD CLASS="topbut"
+><A HREF="index.html"
+>Contents</A
+></TD
+><TD CLASS="topbut"
+><A HREF="doc-index.html"
+>Index</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="modulebar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><FONT SIZE="6"
+>Clojure.Translate</FONT
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Description</TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>The Translate module implements a transformational grammer 
+that converts an AST for haskell into one for clojure
+</P
+><P
+>This module uses the haskell-src-ext AST to represent haskell.
+It transforms those types into the clojure representation 
+found in Clojure.Sytnax
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Synopsis</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+>  <A HREF="#t%3ATranslateable"
+>Translateable</A
+> a  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Atranslate"
+>translate</A
+> :: a -&gt; <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateModule"
+>translateModule</A
+> :: Module -&gt; <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateDecl"
+>translateDecl</A
+> :: Decl -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateQName"
+>translateQName</A
+> :: QName -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateSpecial"
+>translateSpecial</A
+> :: SpecialCon -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateQOP"
+>translateQOP</A
+> :: QOp -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateExp"
+>translateExp</A
+> :: Exp -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtranslateMatch"
+>translateMatch</A
+> :: Match -&gt; (<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Documentation</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+>  <A NAME="t:Translateable"
+><A NAME="t%3ATranslateable"
+></A
+></A
+><B
+>Translateable</B
+> a  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+>Methods</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A NAME="v:translate"
+><A NAME="v%3Atranslate"
+></A
+></A
+><B
+>translate</B
+> :: a -&gt; <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Translateable')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Translateable" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="Clojure-Translate.html#t%3ATranslateable"
+>Translateable</A
+> Module</TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateModule"
+><A NAME="v%3AtranslateModule"
+></A
+></A
+><B
+>translateModule</B
+> :: Module -&gt; <A HREF="Clojure-Syntax.html#t%3ANamespace"
+>Namespace</A
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><TT
+><A HREF="Clojure-Translate.html#v%3AtranslateModule"
+>translateModule</A
+></TT
+> translates a haskell module into a clojure namespace.
+   a module usually contains information about imports/exports and compiler directives
+as well as a list of declarations. For now, we're just preseving the name along with declarations.
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateDecl"
+><A NAME="v%3AtranslateDecl"
+></A
+></A
+><B
+>translateDecl</B
+> :: Decl -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><TT
+><A HREF="Clojure-Translate.html#v%3AtranslateDecl"
+>translateDecl</A
+></TT
+> translates a declaration found under a haskell module to a clojure
+S-expression. this could be almost anything listed in the haskell spec, but is just function 
+bindings for now.
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateQName"
+><A NAME="v%3AtranslateQName"
+></A
+></A
+><B
+>translateQName</B
+> :: QName -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><TT
+><A HREF="Clojure-Translate.html#v%3AtranslateQName"
+>translateQName</A
+></TT
+> translates qualified names into a list atom 
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateSpecial"
+><A NAME="v%3AtranslateSpecial"
+></A
+></A
+><B
+>translateSpecial</B
+> :: SpecialCon -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateQOP"
+><A NAME="v%3AtranslateQOP"
+></A
+></A
+><B
+>translateQOP</B
+> :: QOp -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><TT
+><A HREF="Clojure-Translate.html#v%3AtranslateQOP"
+>translateQOP</A
+></TT
+> translates qualified and unqualified operators into S-expressions
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateExp"
+><A NAME="v%3AtranslateExp"
+></A
+></A
+><B
+>translateExp</B
+> :: Exp -&gt; <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><TT
+><A HREF="Clojure-Translate.html#v%3AtranslateExp"
+>translateExp</A
+></TT
+> translates haskell expressions into equivilent S-expressions
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><A NAME="v:translateMatch"
+><A NAME="v%3AtranslateMatch"
+></A
+></A
+><B
+>translateMatch</B
+> :: Match -&gt; (<A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>, <A HREF="Clojure-Syntax.html#t%3ASexp"
+>Sexp</A
+>)</TD
+></TR
+><TR
+><TD CLASS="doc"
+><TT
+><A HREF="Clojure-Translate.html#v%3AtranslateMatch"
+>translateMatch</A
+></TT
+> translates a match section of a function declaration
+  into a clojure function definition
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="botbar"
+>Produced by <A HREF="http://www.haskell.org/haddock/"
+>Haddock</A
+> version 2.4.2</TD
+></TR
+></TABLE
+></BODY
+></HTML
+>
