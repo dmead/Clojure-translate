@@ -1,0 +1,236 @@
+Clojure 1.2.0
+user=> java.lang.Exception: Unable to resolve symbol: match in this context (NO_SOURCE_FILE:3)
+user=> #'user/listcomp
+user=> #'user/add1
+user=> (add1 2)
+3
+user=> java.lang.Exception: Unable to resolve symbol: x in this context (NO_SOURCE_FILE:24)
+user=> #'user/add1
+user=> (add1 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:35)
+user=> #'user/add1
+user=> (add1 2)
+3
+user=> #'user/add1
+user=> (add1 2)
+3
+user=> #'user/mymap
+user=> (mymap add1 `(1 2 3))
+java.lang.IllegalArgumentException: Wrong number of args (2) passed to: user$mymap (NO_SOURCE_FILE:0)
+user=> (mymap (add1 `(1 2 3)))
+java.lang.ClassCastException: clojure.lang.PersistentList cannot be cast to java.lang.Number (NO_SOURCE_FILE:65)
+user=> (mymap (list add1 `(1 2 3)))
+java.lang.Exception: No such var: user/fx (NO_SOURCE_FILE:66)
+user=> #'user/mymap
+user=> (mymap (list add1 `(1 2 3)))
+(2 3 4)
+user=> #'user/addcurry
+user=> (mymap (list add1 `(1 2 3)))
+(2 3 4)
+user=> 
+user=> ((addcurry 1) 2)
+java.lang.Exception: Can't let qualified name: user/inner1 (NO_SOURCE_FILE:88)
+user=> (gentmp 1)
+java.lang.Exception: Unable to resolve symbol: gentmp in this context (NO_SOURCE_FILE:89)
+user=> (gentemp 1)
+java.lang.Exception: Unable to resolve symbol: gentemp in this context (NO_SOURCE_FILE:90)
+user=> (gentemp "!")
+java.lang.Exception: Unable to resolve symbol: gentemp in this context (NO_SOURCE_FILE:91)
+user=> (gensym "!")
+!197
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Can't use qualified name as parameter: user/params1 (NO_SOURCE_FILE:105)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Unsupported binding form: 1 (NO_SOURCE_FILE:119)
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Can't let qualified name: user/b00 (NO_SOURCE_FILE:146)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/params1 (NO_SOURCE_FILE:162)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/matchs (NO_SOURCE_FILE:178)
+user=> 
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/b00 (NO_SOURCE_FILE:195)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/applybinds (NO_SOURCE_FILE:211)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/inner1 (NO_SOURCE_FILE:227)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/params1 (NO_SOURCE_FILE:243)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.IllegalArgumentException: Wrong number of args (0) passed to: user$eval274$func271 (NO_SOURCE_FILE:259)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)o
+java.lang.IllegalArgumentException: Wrong number of args (1) passed to: user$applyBinds (NO_SOURCE_FILE:0)
+java.lang.Exception: Unable to resolve symbol: o in this context (NO_SOURCE_FILE:0)
+user=> ((addcurry 1) 2)
+java.lang.IllegalArgumentException: Wrong number of args (1) passed to: user$applyBinds (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:292)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:308)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.ClassCastException: clojure.lang.LazySeq cannot be cast to clojure.lang.IFn (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+
+
+java.lang.ClassCastException: clojure.lang.LazySeq cannot be cast to clojure.lang.IFn (NO_SOURCE_FILE:0)
+user=> user=> user=> 
+user=> ((addcurry 1) 2)
+java.lang.ClassCastException: clojure.lang.LazySeq cannot be cast to clojure.lang.IFn (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.IllegalArgumentException: Wrong number of args (1) passed to: user$applyBinds (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:376)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+3
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+3
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Unable to resolve symbol: func381 in this context (NO_SOURCE_FILE:469)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Can't let qualified name: user/func (NO_SOURCE_FILE:485)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:499)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/func (NO_SOURCE_FILE:513)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Unable to resolve symbol: func410 in this context (NO_SOURCE_FILE:527)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Unable to resolve symbol: func417 in this context (NO_SOURCE_FILE:541)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: Unable to resolve symbol: func424 in this context (NO_SOURCE_FILE:555)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.IllegalStateException: Var clojure.core/unquote is unbound. (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> user=> 
+java.lang.Exception: Unable to resolve symbol: user=> in this context (NO_SOURCE_FILE:0)
+user=> 
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:585)
+user=> #'user/addcurry
+user=> user=> 
+java.lang.Exception: Unable to resolve symbol: user=> in this context (NO_SOURCE_FILE:0)
+user=> ((addcurry 1) 2)
+java.lang.ClassCastException: clojure.lang.LazySeq cannot be cast to clojure.lang.IFn (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.ClassCastException: clojure.lang.LazySeq cannot be cast to clojure.lang.IFn (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.ClassCastException: java.lang.Integer cannot be cast to clojure.lang.IFn (NO_SOURCE_FILE:0)
+user=> (match `x 1)
+((user/x 1))
+user=> (applyBinds (match `x 1) `(letfn [(shit [y] (+ y x))]
+(shit)))
+(clojure.core/letfn [(user/shit [user/y] (clojure.core/+ user/y user/x))] (user/shit))
+user=> #'user/addcurry
+user=> (shit)))
+java.lang.Exception: Unable to resolve symbol: shit in this context (NO_SOURCE_FILE:654)
+java.lang.Exception: Unmatched delimiter: )
+java.lang.Exception: Unmatched delimiter: )
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:655)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:668)
+user=> (a
+
+)
+java.lang.Exception: Unable to resolve symbol: a in this context (NO_SOURCE_FILE:669)
+user=> (applyBinds (match `x 1) x)
+java.lang.Exception: Unable to resolve symbol: x in this context (NO_SOURCE_FILE:672)
+user=> (applyBinds (match `x 1) `x)
+1
+user=> (applyBinds (match `x 1) (+ x 1))
+java.lang.Exception: Unable to resolve symbol: x in this context (NO_SOURCE_FILE:674)
+user=> (applyBinds (match `x 1) `(+ x 1))
+(clojure.core/+ 1 1)
+user=>                                                                      
+user=> 
+user=> 
+user=> 
+user=> #'user/addcurry
+user=> (applyBinds (match `x 1) `(+ x 1))
+(clojure.core/+ 1 1)
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> (applyBinds (match `x 1) `(+ x 1))
+(clojure.core/+ 1 1)
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:730)
+user=> (addcurry 1)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:731)
+user=> #'user/addcurry
+user=> (addcurry 1)
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:744)
+user=> (addcurry 1) 2
+java.lang.Exception: No such var: user/x (NO_SOURCE_FILE:745)
+2
+user=> (fn [x] (+ x 1)) 1
+#<user$eval533$fn__534 user$eval533$fn__534@6d6aa0>
+1
+user=> ((fn [x] (+ x 1)) 1)
+2
+user=> #'user/addcurry
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.IllegalArgumentException: Wrong number of args (4) passed to: user$applyBinds (NO_SOURCE_FILE:0)
+user=> ((addcurry 1) 2)
+java.lang.IllegalArgumentException: Wrong number of args (4) passed to: user$applyBinds (NO_SOURCE_FILE:0)
+user=> #'user/addcurry
+user=> ((addcurry 1) 2)
+java.lang.Exception: No such var: user/y (NO_SOURCE_FILE:786)
+user=> #'user/addcurry
+user=> user=> 
+java.lang.Exception: Unable to resolve symbol: user=> in this context (NO_SOURCE_FILE:0)
+user=> 
+user=> ((addcurry 1) 2)[
+java.lang.Exception: Unable to resolve symbol: func564 in this context (NO_SOURCE_FILE:801)
+((addcurry 1) 2)
+
+
+]
+java.lang.Exception: Unable to resolve symbol: func571 in this context (NO_SOURCE_FILE:0)
+user=> ((addcurry 1) 2)
+java.lang.Exception: Unable to resolve symbol: func578 in this context (NO_SOURCE_FILE:806)
+user=> (addcurry 1)
+java.lang.Exception: Unable to resolve symbol: func585 in this context (NO_SOURCE_FILE:807)
+user=> #'user/addcurry
+user=> (addcurry 1)
+#<user$eval596$fn__597 user$eval596$fn__597@18c6cbc>
+user=> ((addcurry 1) 1)
+2
+user=> 
