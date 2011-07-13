@@ -12,19 +12,20 @@
 
 (defn listid[params]
   (let [ 
-    b0  (match 'n params)
+    b0  (match `n params)
         ]
     (cond 
-     (matches b0 ) (eval (applyBinds b0 '(listcomp (x(x <- n)) () ())) )
+     (matches b0 ) (eval (applyBinds b0 `(listcomp (x(x <- n)) () ()))) 
+ 
      true (list :patternmatchfail listid params) )))
 
 
 (defn squareall[params]
   (let [ 
-    b0  (match 'l params)
+    b0  (match `l params)
         ]
     (cond 
-     (matches b0 ) (eval (applyBinds b0 '(listcomp ((* x x)(x <- l)) () ()))) 
+ (matches b0 ) (eval (applyBinds b0 `(listcomp ((* x x)(x <- l)) () ()))) 
  
      true (list :patternmatchfail squareall params) )))
 
@@ -35,8 +36,8 @@
     b1  (match `(cons h t) params)
         ]
     (cond 
-     (matches b0 ) (eval (applyBinds b0 `())) 
-     (matches b1 ) (eval (applyBinds b1 `(++ ( qs(listcomp (x(x <- t)(<= x h)) () ())) (cons h ( qs(listcomp (x(x <- t)(> x h)) () ())))))) 
+ (matches b0 ) (eval (applyBinds b0 `())) 
+ (matches b1 ) (eval (applyBinds b1 `(++ ( qs(listcomp (x(x <- t)(<= x h)) () ())) (cons h ( qs(listcomp (x(x <- t)(> x h)) () ())))))) 
  
      true (list :patternmatchfail qs params) )))
 

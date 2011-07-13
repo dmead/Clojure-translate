@@ -33,7 +33,12 @@ instance Generateable Sexp where
 
 
 
-
+gparen x = "(" ++ x ++ ")"
+gbrackets x = "[" ++ x ++ "]"
+backquote x = "`" ++ x
+gnil = "()"
+space = "  "
+--space = ++ . " ".  ++
 
 {- | 
    'genNamespace' converts the AST of a clojure namespace to executeable code
@@ -58,92 +63,108 @@ fromPattern (Pat x) = x
 
 
 gensexp :: Sexp -> Int -> String
-gensexp Nil spaces = (indent spaces) ++ "()"
+gensexp Nil spaces = (indent spaces) ++ gnil
 gensexp WildCard spaces = "_"
-gensexp Cons spaces= "cons"
+gensexp Cons spaces= "cons "
 gensexp (Atomic x) spaces = gen x
-gensexp (Func name  pairs) spaces = 
-    genfunction name pairs spaces
-gensexp (List []) spaces = "()"
+gensexp (Func name  bodies) spaces =   genfunction name bodies spaces
+gensexp (List []) spaces = gnil
 gensexp (List x) spaces = 
-    "(list " ++ (foldr (\y -> (((gen y)++ " ") ++)) [] x) ++ ")"
-gensexp (Plist []) spaces = "()"
+    gparen $ "list " ++ (foldr (\y -> (((gen y)++ " ") ++)) [] x)
+gensexp (Plist []) spaces = gnil
 gensexp (Plist x) spaces = 
-    "( " ++ (foldr (\y -> (((gen y)++ " ") ++)) [] x) ++ ")"
-gensexp (Apply x y) spaces =  "( " ++ (gen x) ++ (genParam y)++ ")"
+    gparen $ (foldr (\y -> (((gen y)++ " ") ++)) [] x)
+gensexp (Apply x y) spaces =  gparen $ (gen x) ++ " " ++ (genParam y)
 gensexp (InfixApply x op z) spaces = 
-    "(" ++ (gensexp op spaces) ++ " "
-                  ++ (genParam x) ++ " " 
-                  ++ (genParam z) ++ ")"
-gensexp (PInfixApply x op z) spaces = 
-    "(" ++ (gensexp op spaces) ++ " "
-                  ++ (gen x) ++ " " 
-                  ++ (gen z) ++ ")"
-gensexp (Lambda params body) spaces = genLambda (Lambda params body)
+    gparen $ (gensexp op spaces) ++ " " ++ 
+             (genParam x) ++ " " ++ (genParam z) 
 
-gensexp (IF x y z) spaces = "(if" ++ (gen x) ++ (gen y) ++(gen z) ++ ")"
-gensexp (ListComp exp quals) spaces = "(listcomp (" ++ (gen exp) ++ 
-                               (foldr (\x -> ((genStmt x) ++)) [] quals) ++") () ())"
+
+gensexp (PInfixApply x op z) spaces = 
+    gparen $ (gensexp op spaces) ++ space ++
+             (gen x)  ++ space ++ 
+             (gen z)
+gensexp (Lambda params body) spaces = 
+    genLambda (Lambda params body)
+
+gensexp (IF x y z) spaces = gparen $ "if " ++ (gen x) ++ (gen y) ++(gen z)
+
+
+--this is so broken
+gensexp (ListComp exp quals) spaces = gparen $ "listcomp " ++ (gen exp) ++ 
+                               (foldr (\x -> ((genStmt x) ++)) [] quals) ++ gnil 
+
+gensexp (BMatch (pat, body)) spaces = gencondpair [(BMatch (pat,body))] 0
+
+gensexp x _ = error ("can't gen this:  " ++ (show x))
  
 
 
-genLambda (Lambda exp body) = "(fn [" ++ (gen exp)++ "] " ++ (gen body) ++ ")" 
-
-
-
+genLambda (Lambda exp body) = gparen $ "fn " ++ (gbrackets $ (gen exp))  ++ (gen body)
 
 
 --genParam (Atomic (Ident x )) = "(quote " ++  x ++ ")"
 genParam (Atomic (Ident x )) = x
-
-genParam (List []) = "()"
-genParam (Plist []) = "()"
+genParam (List []) = gnil
+genParam (Plist []) = gnil
 genParam (Plist x) = 
-    "( " ++ (foldr (\y -> (((gen y)++ " ") ++)) [] x) ++ ")"
+    gparen $  (foldr (\y -> (((gen y)++ " ") ++)) [] x)
 genParam (List x) = 
-    "(list " ++ (foldr (\y -> (((genParam y)++ " ") ++)) [] x) ++ ")"
+    gparen $ "list " ++ (foldr (\y -> (((genParam y)++ " ") ++)) [] x)
 genParam x = gen x
+
+
+
 
 genpair :: (Sexp, Sexp) -> String
 genpair (pattern, function) = "(match params " ++ (gen pattern) ++ " " ++ "\'"++(gen function) ++ " )"
 
-genbindpair :: [(Sexp,Sexp)] -> Int -> String
+genbindpair :: [Sexp] -> Int -> String
 genbindpair [] num =  " "
-genbindpair ((pat,func):xs) num = (replicate  4 ' ') ++ 
+genbindpair ((BMatch (pat,func)):xs) num = (replicate  4 ' ') ++ 
                                   "b"++(show num)++ 
-                                  "  (match '" ++(gen pat) ++ " params" ++")" ++ "\n"
+                                  "  (match `" ++(gen pat) ++ " params" ++")" ++ "\n"
                                   ++ (genbindpair xs (num+1))
-{-
-genBody (Apply x y) = gen (Apply x y)
-genBody (InfixApply x y z) =  gen (InfixApply x y z)
---genBody (List x) = gen (List x)
-genBody x = "(quote  "++ gen x ++ ")"
--}
 
---genBody (Atomic (Ident x)) = "(quote " ++ x ++ ")"
+
 genBody (Atomic (Ident x)) = x
-genBody x = gen x
+genBody (Lambda pat (BMatch (p1,body))) = "'(fn [~lparam] (let [~lbinds (match `" ++ (gen pat) ++ "~lparam)] \n " ++
+                              "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
+genBody x = "`" ++ gen x
 
 
+genBodytoplevel (Lambda pat (BMatch (p1, body))) = 
+    "`(fn [~lparam] (let [~lbinds (match `" ++ (gen pat) ++ "~lparam)] \n " ++         
+ "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
+genBodytoplevel x = (genBody x)
 
 genStmt (Gen e1 e2) = "(" ++ (gen e1) ++ " <- " ++ (gen e2) ++ ")"
 genStmt (Qualifier e) = gen e
 
 --(> (count bindings0) 0)
-gencondpair :: [(Sexp,Sexp)] -> Int -> String
+gencondpair :: [Sexp] -> Int -> String
 gencondpair [] num = " "
-gencondpair ((pat,func):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) 
-                                  ++ " '" ++ (genBody func) ++ ")) \n" ++
+gencondpair ((BMatch  (_ ,Lambda pat body)):morepats) num =
+           "  (matches b"++(show num)++ ") (eval (applyBinds b"++(show num)++ 
+                            (genBodytoplevel (Lambda pat body)) ++ ")) \n" ++
+                                                         (gencondpair morepats (num+1))
+gencondpair ((BMatch (pat,func)):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) 
+                                  ++ " `" ++ (genBodytoplevel func) ++ ")) \n" ++
                                   (gencondpair xs (num+1))
 
-genfunction :: Sexp -> [(Sexp, Sexp)] -> Int -> String
+                            
+
+
+genfunction :: Sexp -> [Sexp] -> Int -> String
 genfunction name pairs indent = 
     let bindings = (genbindpair pairs 0)
         matches = gencondpair pairs 0 
     in "(defn " ++ (gen name) ++ "[params]" ++ "\n" ++
-        "  (let [ \n" ++ bindings ++ "       ]\n" ++
-            "    (cond \n" ++  
-            matches++ "\n     true (list :patternmatchfail " ++ (gen name) ++ " params) )))\n\n\n"
+        "  (let [ \n" ++ bindings ++
+                          "lparam (gensym \"l\") \n" ++
+                         "lbinds (gensym \"b1\")  ]\n" ++
+                          "    (cond \n" ++ matches ++ "\n true (list :patternmatchfail " 
+                               ++ (gen name) ++ " params) )))\n\n\n"
 
 {- | 'genfunction' does the code generation for a function definition form. 
 

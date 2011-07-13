@@ -52,19 +52,21 @@ translateFile x =
 
 
 test =  "/home/dmead/Translator/tests/lists.hs"
-test1 = "/home/dmead/Translator/tests/add.hs"
+test1 = "/home/dmead/Clojure-translate/tests/add.hs"
 test2 =  "/home/dmead/Translator/tests/hello.hs"
-test3 =  "/home/dmead/Translator/tests/map.hs"
+test3 =  "/home/dmead/Clojure-translate/tests/map.hs"
 test4 =  "/home/dmead/Translator/tests/tupleadd.hs"
 test5 =  "/home/dmead/Translator/NewTests-RWW/myflip.hs"
 test6 =  "/home/dmead/Translator/NewTests-RWW/myrest.hs"
 test7 =  "/home/dmead/Translator/tests/hanoi.hs"
 test8 =  "/home/dmead/Translator/tests/quicksort.hs"
 test9 =  "/home/dmead/Translator/tests/lambda.hs"
-test10 = "/home/dmead/Translator/tests/comprehensions.hs"
+test10 = "/home/dmead/Clojure-translate/tests/comprehensions.hs"
 test11 = "/home/dmead/Translator/tests/compSimple.hs"
 test12 = "/home/dmead/Translator/tests/let.hs"
 test13 = "/home/dmead/Translator/tests/dosimple.hs"
+test14 = "/home/dmead/Clojure-translate/tests/curry_example.hs"
+test15 = "/home/dmead/Clojure-translate/tests/demo.hs"
 
 
 main = do args <- System.Environment.getArgs

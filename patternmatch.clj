@@ -290,14 +290,15 @@
 (defmacro isgen [x]
   (= (eval `(msecond ~@x)) '<-))
 
-(defmacro listcomp [[exp & quals] binds res]
+(defmacro listcomp [[exp
+		     & quals] res]
   (if  (empty? quals) `(cons ~exp ~res)
        (let [
 	     q1 (first quals)
 	     q  (rest quals)
 	     ]
 	 (if (not (eval `(isgen ~q1)))
-	  `(if ~q1 (listcomp (~exp ~@q) ~binds ~res) ~res) 
+	  `(if ~q1 (listcomp (~exp ~@q)  ~res) ~res) 
 	 (let [v (first q1)  
 	       l1 (third q1)  
 	       h (gensym "H-")  
@@ -310,8 +311,13 @@
 				  ~v (first ~us)
 				  ~us1 (rest ~us)  
 				  ]
-			      (listcomp (~exp ~@q) (('~v ~v) ~@binds) (~h ~us1)))))
+			      (listcomp (~exp ~@q) (~h ~us1)))))
 		    ]  
 	      (~h ~l1)))))))
 
 
+
+
+(defn testcomp[]
+  (let [s `(1 2 3)]
+    (eval `(listcomp ('x ('x '<- s)) ()))))

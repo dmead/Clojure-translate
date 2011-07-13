@@ -66,9 +66,10 @@ data Sexp = Atomic Atom
          | InfixApply Sexp Sexp Sexp     
          | PInfixApply Sexp Sexp Sexp     
          -- ^ a general form for infix function calls
-         | Func Sexp [(Sexp, Sexp)] 
+         | BMatch (Sexp, Sexp)
+         | Func Sexp [Sexp]
          -- ^function def and it's pattern cases
-         | List [Sexp]  
+         | List [Sexp]
          -- ^ regular s-expression list
          | Tuple [Sexp]
          | Ptuple [Sexp]

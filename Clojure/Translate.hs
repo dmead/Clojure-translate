@@ -119,14 +119,22 @@ translateExp (HS.ListComp exp stmts) = Sexp.ListComp (translateExp exp) (map tra
 
 {- | 'translateMatch' translates a match section of a function declaration
   into a clojure function definition
+ -}
+
+translateMatch :: Match -> Sexp
+translateMatch (Match _  name (p1:[])  _   (UnGuardedRhs rhs) binds) =
+   BMatch (translatePattern p1, translateExp rhs)
+
+translateMatch (Match _  name (p1:p2:pats)  _   (UnGuardedRhs rhs) binds) 
+    =  BMatch 
+       ((translatePattern p1), Sexp.Lambda (translatePattern p2)
+        (translateMatch (Match (SrcLoc "" 0 0) name  (p2:pats) Nothing (UnGuardedRhs rhs) binds)))
+{-
+translateMatch (Match _  name (p1:pats)  _   (UnGuardedRhs rhs) binds) 
+    =  Sexp.Lambda (translatePattern p1)
+        (translateMatch (Match (SrcLoc "" 0 0) name  pats Nothing (UnGuardedRhs rhs) binds))
 -}
 
-translateMatch :: Match -> (Sexp, Sexp)
-translateMatch (Match _  name patlist  _   (UnGuardedRhs rhs) binds) 
-    = 
-      --let sexpPattern = Sexp.List map (translatePattern) patlist      
-      let sexpPattern = translatePattern (head patlist)
-      in (sexpPattern, translateExp rhs)
                   
 
 {- | 'translateLiteral' converts a haskell literal into an s-expression atom
