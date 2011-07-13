@@ -15,7 +15,7 @@
     b0  (match `n params)
         ]
     (cond 
-     (matches b0 ) (eval (applyBinds b0 `(listcomp (x(x <- n)) () ()))) 
+     (matches b0 ) (eval (applyBinds b0 `(listcomp  ( ~'x ( ~'x <- n ) ) ()))) 
  
      true (list :patternmatchfail listid params) )))
 

@@ -196,8 +196,6 @@
  (enumfrom 1 end))
 
 
-(def c1 '(x (x '<- (1 2 3 4 5 6 7 8 9 10))))
-
 
 (def genpat '(x <- y))
 
@@ -214,8 +212,6 @@
  (list (first x) (second x) (rest (eval (third x)))))
 
 
-
-
 (defn rewritePat[pat target val]
  (let [binds [target val]   ]
    (eval `(applyBinds ~@binds  ~pat))))
@@ -224,8 +220,6 @@
 (defn emptyGen[x]
     (or (empty? (third x)) (not (seq (third x)))))
       
-
-
 
 (defn genp [x]
  (and (= (count x) 3) (= (second x) `<-)))
@@ -255,7 +249,6 @@
 				    true x))	 expr)
         (= (first bind) expr) (second bind)))
 
-;;(x 1) `(x x x)
 
 (defn applyBinds [binds expr]
   (cond (empty? binds) expr
@@ -265,19 +258,12 @@
 (defmacro letbinds [binds expr]
   `(let [ ~@binds ] ~expr))
 
-(defmacro testcmp [x y]
-  `(= ~x ~y))
-
 
 (defn flatbinds [x]
   (cond (empty? x) `()
 	true (concat (first x) (flatbinds (rest x)))))
 	
 		       
-(defn adder [params]
-  (let [binds (match `(x (y z)) params)]
-    (cond (matches params) (eval (applyBinds binds `(+ x y z))))))
-
 
 (defn third [x]
   (first (next (next x))))
@@ -290,8 +276,7 @@
 (defmacro isgen [x]
   (= (eval `(msecond ~@x)) '<-))
 
-(defmacro listcomp [[exp
-		     & quals] res]
+(defmacro listcomp [[exp & quals] res]
   (if  (empty? quals) `(cons ~exp ~res)
        (let [
 	     q1 (first quals)
@@ -318,6 +303,3 @@
 
 
 
-(defn testcomp[]
-  (let [s `(1 2 3)]
-    (eval `(listcomp ('x ('x '<- s)) ()))))
