@@ -1,43 +1,9 @@
-(defn addcurry [params]
-  (let [b0 (match `x params)]
-    (cond (matches b0) (let [func (gensym "func")
-			     param (gensym "param")
-			     b00 (gensym "bind")
-			     ]
-			 (eval (applyBinds b0 `(fn [~param]
-							   (let [~b00 (match `y ~param)]
-							     (cond (matches ~b00) (eval (applyBinds ~b00 `(+ x  y)))
-								   true (list :patternmatchfail ~params)))))))
-					      
-	  true (list :patternmatchfail add1 params)))))))
-
-
-
-(defn addcurry [params]
-  (let [b0 (match `x params)]
-    (cond (matches b0) (let [func (gensym "func")
-			     param (gensym "param")
-			     b00 (gensym "bind")
-			     ]
-			 (eval (applyBinds b0 `(letfn [(~func [~param]
-							   (let [~b00 (match `y ~param)]
-							     (cond (matches ~b00) (eval (applyBinds ~b00 (+ x  y)))
-								   true (list :patternmatchfail ~func ~params))))]
-					      ~func))))
-	  true (list :patternmatchfail add1 params))))
-
-
-					
-
-
-
-
 (defn add1[params]
   (let [ 
-    b0  (match `x params)
+    b0  (match 'x params)
         ]
     (cond 
- (matches b0 ) (eval (applyBinds b0 `(+ x 1)))
+ (matches b0 ) (eval (applyBinds b0 '(+ x 1))) 
  
      true (list :patternmatchfail add1 params) )))
 
@@ -48,9 +14,8 @@
     b1  (match `( f (cons x xs) ) params)
         ]
     (cond 
- (matches b0 ) (eval (applyBinds b0 `())) 
- (matches b1 ) (eval (applyBinds b1 `(cons ( f x) ( mymap(list f xs ))))) 
- 
+     (matches b0 ) (eval (applyBinds b0 `())) 
+     (matches b1 ) (eval (applyBinds b1 `(cons (f x) (mymap(list f xs )))))
      true (list :patternmatchfail mymap params) )))
 
 

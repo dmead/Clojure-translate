@@ -149,7 +149,7 @@ gencondpair ((BMatch  (_ ,Lambda pat body)):morepats) num =
                             (genBodytoplevel (Lambda pat body)) ++ ")) \n" ++
                                                          (gencondpair morepats (num+1))
 gencondpair ((BMatch (pat,func)):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) 
-                                  ++ " `" ++ (genBodytoplevel func) ++ ")) \n" ++
+                                  ++ (genBodytoplevel func) ++ ")) \n" ++
                                   (gencondpair xs (num+1))
 
                             
@@ -198,9 +198,6 @@ as in the list
 > ((1 2 3) 1 2.0 4 fifty nil)
 
 the atomic parts are 1,2,3 1, 2.0, 4 and fifty
-
-
-
 
 
 -}

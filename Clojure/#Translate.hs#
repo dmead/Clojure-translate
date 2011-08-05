@@ -13,6 +13,7 @@ module Clojure.Translate where
 
 import Language.Haskell.Exts.Syntax as HS
 import Clojure.Syntax as Sexp
+import Clojure.DeSugar as DS
 
 
 class Translateable a where
@@ -22,7 +23,7 @@ class Translateable a where
 instance Translateable Module where
     translate a = translateModule a
 
--
+
 --bind (Gen e1 e2) rhs  = Let (Binds [(e1, e2)]) (bind rhs)
 --bind (Qualifier exp) rhs = Do exp exp
 --bind (LetStmt (Binds [(e1,e2)])) = 
@@ -114,7 +115,10 @@ translateExp (HS.Tuple x) = Sexp.List (map translateExp x)
 translateExp (Paren x) = translateExp x
 translateExp (HS.If x y z ) = Sexp.IF (translateExp x) (translateExp  y) (translateExp z)
 translateExp (HS.Lambda loc pats exp) = Sexp.Lambda (head (map (translatePattern) pats)) (translateExp exp)
-translateExp (HS.ListComp exp stmts) = Sexp.ListComp (translateExp exp) (map translateQualStmt stmts)
+--translateExp (HS.ListComp exp stmts) = Sexp.ListComp (translateExp exp) (map translateQualStmt stmts)
+translateExp (HS.ListComp exp stmts) = translateExp $ DS.deSugar  $ (HS.ListComp exp stmts)
+
+
 
 
 {- | 'translateMatch' translates a match section of a function declaration

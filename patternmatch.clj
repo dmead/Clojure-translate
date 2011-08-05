@@ -255,6 +255,22 @@
 	true (applyBinds (rest binds) (applyBind (first binds) expr))))
 
 
+
+
+(defmacro applyBindM[bind expr]
+  (cond
+   (= `() expr)
+   `()
+   (= (first (bind) (first expr)))
+   `(cons (second bind) (applyBindM bind (rest expr)))
+   true (applyBindM bind (rest expr))))
+
+(defmacro applyBindsM [binds expr]
+  (cond (= (f
+	true `
+
+
+
 (defmacro letbinds [binds expr]
   `(let [ ~@binds ] ~expr))
 
@@ -275,6 +291,25 @@
 
 (defmacro isgen [x]
   (= (eval `(msecond ~@x)) '<-))
+;;    (= (eval `(msecond ~@x)) :drawn))
+
+(defn lcomp [pat results [qual morequals]]
+  (cond
+
+   ;; rule A, empty generator 
+   (and (= (second qual) `<-) (= (third qual) `()))
+   (cons `() results)
+   ;;rule  B, draw from a generatorr and decrement it
+   (and (= (second qual) `<-))
+   ))
+
+(defmacro collect-variables[[x & more]]
+  (if (eval `(symbol? `~x)) `(x ~@(collect-variables more))
+      (eval `(list? `~x)) `(~@(collect-variables x) @(collect-variables more))
+      ()))
+  
+(defmacro mlist? [x]
+  (eval `(list? '~x)))
 
 (defmacro listcomp [[exp & quals] res]
   (if  (empty? quals) `(cons ~exp ~res)
@@ -303,3 +338,15 @@
 
 
 
+(defn flatmap [params]
+  (let [b0 (match `(f ()) params)
+	b1 (match `(f (cons x xs)) params)
+	]
+    (cond (matches b0) (eval (applyBinds b0 `()))
+	  (matches b1) (eval (applyBinds b1 `(++ (f x) (flatmap (list f xs))))))))
+
+
+(comment
+  flatmap f [] = []
+  flatmap f (x:xs) = (f x) ++ (flatmap f xs)
+  )

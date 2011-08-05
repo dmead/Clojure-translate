@@ -24,7 +24,7 @@ lbinds (gensym "b1")  ]
 (defn mysum[params]
   (let [ 
     b0  (match `() params)
-    b1  (match `(cons  x xs) params)
+    b1  (match `(cons   x  xs) params)
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
@@ -43,7 +43,7 @@ lbinds (gensym "b1")  ]
     (cond 
   (matches b0) (eval (applyBinds b0`(fn [~lparam] (let [~lbinds (match `()~lparam)] 
       (cond (matches ~lbinds) (eval (applyBinds ~lbinds `()))))))) 
-  (matches b1) (eval (applyBinds b1`(fn [~lparam] (let [~lbinds (match `(cons  x xs)~lparam)] 
+  (matches b1) (eval (applyBinds b1`(fn [~lparam] (let [~lbinds (match `(cons   x  xs)~lparam)] 
       (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(cons  (f x) ((mymap f) xs))))))))) 
  
  true (list :patternmatchfail mymap params) )))
@@ -52,7 +52,7 @@ lbinds (gensym "b1")  ]
 (defn mymap1[params]
   (let [ 
     b0  (match `(f () ) params)
-    b1  (match `(f (cons  x xs) ) params)
+    b1  (match `(f (cons   x  xs) ) params)
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
