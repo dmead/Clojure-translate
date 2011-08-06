@@ -17,3 +17,10 @@ mymap f (x:xs) = f x : mymap f xs
 mymap1 (f,[]) = []
 mymap1 (f,x:xs) = (f x) : mymap1(f, xs)
 
+
+
+
+
+cart xs ys = [(x,y) | x <- xs, y <- ys]
+
+

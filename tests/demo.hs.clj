@@ -62,3 +62,15 @@ lbinds (gensym "b1")  ]
  true (list :patternmatchfail mymap1 params) )))
 
 
+(defn cart[params]
+  (let [ 
+    b0  (match `xs params)
+ lparam (gensym "l") 
+lbinds (gensym "b1")  ]
+    (cond 
+  (matches b0) (eval (applyBinds b0 `(fn [~lparam] (let [~lbinds (match `ys~lparam)] 
+      (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(flatmap (list (fn [~lparam](flatmap (list (fn [~lparam](cons  (list x y ) ())) ys ))) xs ))))))))) 
+ 
+ true (list :patternmatchfail cart params) )))
+
+

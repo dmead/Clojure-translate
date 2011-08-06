@@ -102,7 +102,8 @@ gensexp x _ = error ("can't gen this:  " ++ (show x))
               
 --all 
 genLambda (Lambda exp body) = 
-    gparen $ "fn " ++ (gbrackets $ (gen exp))  ++ (gen body)
+    gparen $ "fn " ++ (gbrackets $ "~lparam")  ++ (gen body)
+--    gparen $ "fn " ++ (gbrackets $ (gen exp))  ++ (gen body)
 
 genatoms :: [String] -> [Char]
 genatoms (x:xs) = gparen $  (foldr (\q -> ((q ++ " ") ++)) [] (x:xs))

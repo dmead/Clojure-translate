@@ -24,8 +24,8 @@ deSugar (ListComp  exp ((QualStmt (Qualifier guard)): qs)) =
           
 
 --rule (c) 
-deSugar (ListComp exp []) = (App (App (Var (Special Cons)) exp) (List []))
-
+--deSugar (ListComp exp []) = (App (App (Var (Special Cons)) exp) (List []))
+deSugar (ListComp exp []) = (InfixApp exp (QConOp (Special Cons)) (List []))
 
 
 
