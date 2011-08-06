@@ -36,6 +36,7 @@ instance Generateable Sexp where
 gparen x = "(" ++ x ++ ")"
 gbrackets x = "[" ++ x ++ "]"
 backquote x = "`" ++ x
+backtick x = "'" ++ x
 gnil = "()"
 space = "  "
 --space = ++ . " ".  ++
@@ -91,19 +92,30 @@ gensexp (IF x y z) spaces = gparen $ "if " ++ (gen x) ++ (gen y) ++(gen z)
 
 
 --this is so broken
-gensexp (ListComp exp quals) spaces = gparen $ "listcomp " ++ (gen exp) ++ 
-                               (foldr (\x -> ((genStmt x) ++)) [] quals) ++ gnil 
+--gensexp (ListComp exp quals) spaces = gparen $ "listcomp " ++ (gen exp) ++ 
+--                               (foldr (\x -> ((genStmt x) ++)) [] quals) ++ gnil 
 
 gensexp (BMatch (pat, body)) spaces = gencondpair [(BMatch (pat,body))] 0
 
 gensexp x _ = error ("can't gen this:  " ++ (show x))
  
+              
+--all 
+genLambda (Lambda exp body) = 
+    gparen $ "fn " ++ (gbrackets $ (gen exp))  ++ (gen body)
+
+genatoms :: [String] -> [Char]
+genatoms (x:xs) = gparen $  (foldr (\q -> ((q ++ " ") ++)) [] (x:xs))
+genvector x = gbrackets $ genatoms x
+genLet vec body  =  gparen $ "let "  ++ (genvector vec) ++ body
 
 
-genLambda (Lambda exp body) = gparen $ "fn " ++ (gbrackets $ (gen exp))  ++ (gen body)
+
+gencond ((a,c):xs) = gparen $ "cond " ++ (foldr (\(x,y) -> "
+Enter passphrase for key '/home/dmead/.ssh/id_rsa':
 
 
---genParam (Atomic (Ident x )) = "(quote " ++  x ++ ")"
+
 genParam (Atomic (Ident x )) = x
 genParam (List []) = gnil
 genParam (Plist []) = gnil
@@ -114,10 +126,9 @@ genParam (List x) =
 genParam x = gen x
 
 
-
-
 genpair :: (Sexp, Sexp) -> String
-genpair (pattern, function) = "(match params " ++ (gen pattern) ++ " " ++ "\'"++(gen function) ++ " )"
+genpair (pattern, function) = 
+    "(match params " ++ (gen pattern) ++ " " ++ "\'"++(gen function) ++ " )"
 
 genbindpair :: [Sexp] -> Int -> String
 genbindpair [] num =  " "
@@ -141,15 +152,15 @@ genBodytoplevel x = (genBody x)
 genStmt (Gen e1 e2) = "(" ++ (gen e1) ++ " <- " ++ (gen e2) ++ ")"
 genStmt (Qualifier e) = gen e
 
---(> (count bindings0)* 0)
+--(> (count bindings0) 0)
 gencondpair :: [Sexp] -> Int -> String
 gencondpair [] num = " "
 gencondpair ((BMatch  (_ ,Lambda pat body)):morepats) num =
-           "  (matches b"++(show num)++ ") (eval (applyBinds b"++(show num)++ 
+           "  (matches b"++(show num)++ ") (eval (applyBinds b"++(show num)++ " "++
                             (genBodytoplevel (Lambda pat body)) ++ ")) \n" ++
                                                          (gencondpair morepats (num+1))
 gencondpair ((BMatch (pat,func)):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) 
-                                  ++ " `" ++ (genBodytoplevel func) ++ ")) \n" ++
+                                  ++ (genBodytoplevel func) ++ ")) \n" ++
                                   (gencondpair xs (num+1))
 
                             
@@ -198,9 +209,6 @@ as in the list
 > ((1 2 3) 1 2.0 4 fifty nil)
 
 the atomic parts are 1,2,3 1, 2.0, 4 and fifty
-
-
-
 
 
 -}

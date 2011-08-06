@@ -41,32 +41,38 @@ printastSrc x =
        return ()
               
 translateFile x = 
-    do haskellAST <- return $ gethaskellast x
-       print haskellAST
+    do putStr $ "translating file: " ++ x ++ "\n" 
+       haskellAST <- return $ gethaskellast x
+       --print haskellAST
        clojureAST <- return $ translate haskellAST
-       print clojureAST
+       --print clojureAST
        outfile <- openFile (x++".clj") WriteMode
        hPutStr outfile (gen clojureAST)
        hClose outfile
        return ()
 
+testpath = "/home/"
 
-test =  "/home/dmead/Translator/tests/lists.hs"
-test1 = "/home/dmead/Clojure-translate/tests/add.hs"
-test2 =  "/home/dmead/Translator/tests/hello.hs"
-test3 =  "/home/dmead/Clojure-translate/tests/map.hs"
-test4 =  "/home/dmead/Translator/tests/tupleadd.hs"
-test5 =  "/home/dmead/Translator/NewTests-RWW/myflip.hs"
-test6 =  "/home/dmead/Translator/NewTests-RWW/myrest.hs"
-test7 =  "/home/dmead/Translator/tests/hanoi.hs"
-test8 =  "/home/dmead/Translator/tests/quicksort.hs"
-test9 =  "/home/dmead/Translator/tests/lambda.hs"
-test10 = "/home/dmead/Clojure-translate/tests/comprehensions.hs"
-test11 = "/home/dmead/Translator/tests/compSimple.hs"
-test12 = "/home/dmead/Translator/tests/let.hs"
-test13 = "/home/dmead/Translator/tests/dosimple.hs"
-test14 = "/home/dmead/Clojure-translate/tests/curry_example.hs"
-test15 = "/home/dmead/Clojure-translate/tests/demo.hs"
+
+test =  "tests/lists.hs"
+test1 = "tests/add.hs"
+--test2 =  "tests/hello.hs"
+test2 =  "tests/map.hs"
+test3 =  "tests/tupleadd.hs"
+test4 =  "tests/hanoi.hs"
+test5 =  "tests/quicksort.hs"
+test6 =  "tests/lambda.hs"
+test7 = "tests/comprehensions.hs"
+test8 = "tests/compSimple.hs"
+--test9 = "tests/let.hs"
+--test10 = "tests/dosimple.hs"
+test11 = "tests/curry_example.hs"
+test12 = "tests/demo.hs"
+
+tests = [test,test1,test2,test3,test4,test5,test6,test7,test8,{-test9,test10,-}test11,test12]
+
+runall =  mapM_ translateFile tests
+
 
 
 main = do args <- System.Environment.getArgs

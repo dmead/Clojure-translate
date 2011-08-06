@@ -4,7 +4,7 @@
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0 ``(+ x y))) 
+ (matches b0 ) (eval (applyBinds b0`(+ x y))) 
  
  true (list :patternmatchfail add params) )))
 
@@ -15,7 +15,7 @@ lbinds (gensym "b1")  ]
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
-  (matches b0) (eval (applyBinds b0`(fn [~lparam] (let [~lbinds (match `y~lparam)] 
+  (matches b0) (eval (applyBinds b0 `(fn [~lparam] (let [~lbinds (match `y~lparam)] 
       (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(+ x y)))))))) 
  
  true (list :patternmatchfail add1 params) )))
@@ -28,8 +28,8 @@ lbinds (gensym "b1")  ]
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0 ``0)) 
- (matches b1 ) (eval (applyBinds b1 ``(+ x (mysum xs)))) 
+ (matches b0 ) (eval (applyBinds b0`0)) 
+ (matches b1 ) (eval (applyBinds b1`(+ x (mysum xs)))) 
  
  true (list :patternmatchfail mysum params) )))
 
@@ -41,9 +41,9 @@ lbinds (gensym "b1")  ]
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
-  (matches b0) (eval (applyBinds b0`(fn [~lparam] (let [~lbinds (match `()~lparam)] 
+  (matches b0) (eval (applyBinds b0 `(fn [~lparam] (let [~lbinds (match `()~lparam)] 
       (cond (matches ~lbinds) (eval (applyBinds ~lbinds `()))))))) 
-  (matches b1) (eval (applyBinds b1`(fn [~lparam] (let [~lbinds (match `(cons   x  xs)~lparam)] 
+  (matches b1) (eval (applyBinds b1 `(fn [~lparam] (let [~lbinds (match `(cons   x  xs)~lparam)] 
       (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(cons  (f x) ((mymap f) xs))))))))) 
  
  true (list :patternmatchfail mymap params) )))
@@ -56,8 +56,8 @@ lbinds (gensym "b1")  ]
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0 ``())) 
- (matches b1 ) (eval (applyBinds b1 ``(cons  (f x) (mymap1 (list f xs ))))) 
+ (matches b0 ) (eval (applyBinds b0`())) 
+ (matches b1 ) (eval (applyBinds b1`(cons  (f x) (mymap1 (list f xs ))))) 
  
  true (list :patternmatchfail mymap1 params) )))
 
