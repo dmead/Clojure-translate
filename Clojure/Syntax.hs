@@ -10,11 +10,19 @@ module Clojure.Syntax where
 
 
 
+import Data.Data
+import Data.Typeable
+import Data.Generics.PlateData
+
+
 {- | a container for clojure namespaces.    
 for now, this is just a name with a list of S-expressions
 -}
 data Namespace = Namespace String [Sexp]      
      deriving (Show, Eq) 
+
+
+fromNamespace (Namespace name funcs) = funcs
 
 
 {- | 
@@ -32,7 +40,7 @@ data Pattern = Pat [Sexp]
 data Stmt = Gen Sexp Sexp
           | Qualifier Sexp
           | LetStmt Binds 
-         deriving (Eq, Show)
+         deriving (Eq, Show, Data, Typeable)
             
 
 data Atom = Lit Char 
@@ -42,11 +50,11 @@ data Atom = Lit Char
      | Ident String 
      -- ^ Idenitifer For Named Functions And Data structures
      | Var String 
-     -- ^ identifier for variables
+          -- ^ identifier for variables
      | Symbol String
      | Int Integer
- -- ^ a single character used for operators
-     deriving (Eq, Show)
+       -- ^ a single character used for operators
+     deriving (Eq, Show, Data, Typeable)
 
 
 {- |
@@ -78,12 +86,28 @@ data Sexp = Atomic Atom
          | Nil      
          | Let Binds Sexp
          | Do [Sexp]
-           deriving (Show, Eq)
+           deriving (Show, Eq, Data, Typeable)
+
+
+--instance Uniplate Sexp
+--instance Uniplate Atom
+--instance Uniplate Namespace
 
 
 data Binds = Binds [(Sexp, Sexp)]
-           deriving (Show, Eq)
+           deriving (Show, Eq, Data, Typeable)
 
 
---data Binds = Binds [Sexp]
- --          deriving(Show, Eq)
+listIdents x = [y | (Atomic (Ident y)) <- universe x]
+
+
+
+
+replaceIdent a b  = transform $ (\q -> case q of 
+                                     (Atomic (Ident i)) -> 
+                                         if (i == b) then  (Atomic (Ident a))
+                                         else  (Atomic (Ident i))
+                                     z -> z)
+
+
+

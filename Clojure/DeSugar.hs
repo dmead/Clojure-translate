@@ -6,7 +6,7 @@ import Language.Haskell.Exts.Syntax as HS
 
 --deSugar (Listcomp exp (q:qs)) =
 
---;;flatmap wants a curried version. need some fucking curry that really works (might just use clojure map)
+
 --rule (a) page 132
 
 deSugar (HS.ListComp exp ((QualStmt (Generator _ gpat gexp)):qs)) 

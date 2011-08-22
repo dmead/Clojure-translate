@@ -16,19 +16,25 @@ module Main where
 
 
 
-import Language.Haskell.Exts
-import Clojure.Syntax
+import Language.Haskell.Exts as HS
+import Clojure.Syntax as CS
 import Clojure.Translate
 import Clojure.CodeGen
 import System.IO.Unsafe
 import System.IO
 import System.Environment
-
+import Data.Generics.Uniplate
 
 {- |
    'astfromFile' calls the parser from 
 
 -}
+
+
+
+--getvars x = [y | (.Var y) <- universe x]
+
+
 
 gethaskellast x =  fromParseResult $ unsafePerformIO  $ parseFile x
 getclojureast x =  translate $ fromParseResult $ unsafePerformIO  $ parseFile x

@@ -4,7 +4,7 @@ Description: Translate haskell into clojure
 License: GPL
 License-file: LICENSE
 Author: Daniel Mead
-Maintainer: dons@cse.unsw.edu.au
+Maintainer: d.w.mead@gmail.com
 Build-Type: Simple
 Cabal-Version: >=1.2
 
