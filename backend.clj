@@ -278,7 +278,7 @@
 
 (defmacro isgen [x]
   (= (eval `(msecond ~@x)) '<-))
-;;    (= (eval `(msecond ~@x)) :drawn))
+
 
 
 
@@ -320,5 +320,17 @@
 	]
     (cond (matches b0) (eval (applyBinds b0 `()))
 	  (matches b1) (eval (applyBinds b1 `(++ (f x) (flatmap (list f xs))))))))
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -1,3 +1,5 @@
+
+
 {- |
 Module: 'Translator'
 
@@ -20,6 +22,7 @@ import Language.Haskell.Exts as HS
 import Clojure.Syntax as CS
 import Clojure.Translate
 import Clojure.CodeGen
+import Clojure.AstTransform
 import System.IO.Unsafe
 import System.IO
 import System.Environment
@@ -32,7 +35,7 @@ import Data.Generics.Uniplate
 
 
 
---getvars x = [y | (.Var y) <- universe x]
+--cgetvars x = [y | (.Var y) <- universe x]
 
 
 
@@ -42,7 +45,6 @@ getclojureast x =  translate $ fromParseResult $ unsafePerformIO  $ parseFile x
 
 printastSrc x = 
     do y <- return $ fromParseResult $ unsafePerformIO  $ parseFile x
-
        putStr $ prettyPrint y ++ "\n"
        return ()
               
@@ -56,6 +58,7 @@ translateFile x =
        hPutStr outfile (gen clojureAST)
        hClose outfile
        return ()
+
 
 testpath = "/home/"
 

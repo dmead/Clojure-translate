@@ -13,7 +13,7 @@ version = Version {versionBranch = [0,0], versionTags = []}
 bindir, libdir, datadir, libexecdir :: FilePath
 
 bindir     = "/home/dmead/.cabal/bin"
-libdir     = "/home/dmead/.cabal/lib/Clojure-translate-0.0/ghc-6.10.3"
+libdir     = "/home/dmead/.cabal/lib/Clojure-translate-0.0/ghc-6.12.3"
 datadir    = "/home/dmead/.cabal/share/Clojure-translate-0.0"
 libexecdir = "/home/dmead/.cabal/libexec"
 

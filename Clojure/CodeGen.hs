@@ -134,13 +134,16 @@ genbindpair ((BMatch (pat,func)):xs) num = (replicate  4 ' ') ++
 
 
 genBody (Atomic (Ident x)) = x
-genBody (Lambda pat (BMatch (p1,body))) = "'(fn [~lparam] (let [~lbinds (match `" ++ (gen pat) ++ "~lparam)] \n " ++
-                              "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
+genBody (Lambda pat (BMatch (p1,body))) = 
+    "'(fn [params]" ++ 
+    "    (let [~lbinds (match `" ++ (gen (head pat)) ++ "~lparam)] \n " ++
+    "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
+
 genBody x = "`" ++ gen x
 
 
 genBodytoplevel (Lambda pat (BMatch (p1, body))) = 
-    "`(fn [~lparam] (let [~lbinds (match `" ++ (gen pat) ++ "~lparam)] \n " ++         
+    "`(fn [~lparam] (let [~lbinds (match `" ++ (gen (head pat)) ++ "~lparam)] \n " ++         
  "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
 genBodytoplevel x = (genBody x)
 

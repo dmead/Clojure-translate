@@ -14,7 +14,7 @@ module Clojure.Translate where
 import Language.Haskell.Exts.Syntax as HS
 import Clojure.Syntax as Sexp
 import Clojure.DeSugar as DS
-
+import Clojure.AstTransform
 
 class Translateable a where
     translate :: a -> Namespace
@@ -53,7 +53,7 @@ matchname (Match _  name _  _   _ _ ) =  name
 translateDecl :: Decl -> Sexp
 translateDecl (FunBind matches) = 
     let funcname = translateName . matchname . head $ matches        
-    in Func funcname (map (translateMatch) matches)
+    in unpackLambdas $ Func funcname (map (translateMatch) matches)
 
 {-
 translateDecl (PatBind srcloc pat (Maybe atype) rhs binds) =
@@ -114,8 +114,12 @@ translateExp (HS.List x) = Sexp.List (map translateExp x)
 translateExp (HS.Tuple x) = Sexp.List (map translateExp x)
 translateExp (Paren x) = translateExp x
 translateExp (HS.If x y z ) = Sexp.IF (translateExp x) (translateExp  y) (translateExp z)
-translateExp (HS.Lambda loc pats exp) = Sexp.Lambda (head (map (translatePattern) pats)) (translateExp exp)
---translateExp (HS.ListComp exp stmts) = Sexp.ListComp (translateExp exp) (map translateQualStmt stmts)
+translateExp (HS.Lambda loc pats exp) = 
+    if (length pats == 1) then
+    Sexp.Lambda (map (translatePattern) pats) (translateExp exp)
+    else 
+    Sexp.Lambda [translatePattern (head pats)] (translateExp (HS.Lambda loc (tail pats) exp))
+
 translateExp (HS.ListComp exp stmts) = translateExp $ DS.deSugar  $ (HS.ListComp exp stmts)
 
 
@@ -131,7 +135,7 @@ translateMatch (Match _  name (p1:[])  _   (UnGuardedRhs rhs) binds) =
 
 translateMatch (Match _  name (p1:p2:pats)  _   (UnGuardedRhs rhs) binds) 
     =  BMatch 
-       ((translatePattern p1), Sexp.Lambda (translatePattern p2)
+       ((translatePattern p1), Sexp.Lambda [(translatePattern p2)]
         (translateMatch (Match (SrcLoc "" 0 0) name  (p2:pats) Nothing (UnGuardedRhs rhs) binds)))
 {-
 translateMatch (Match _  name (p1:pats)  _   (UnGuardedRhs rhs) binds) 

@@ -4,8 +4,9 @@
  lparam (gensym "l") 
 lbinds (gensym "b1")  ]
     (cond 
-  (matches b0) (eval (applyBinds b0 `(fn [~lparam] (let [~lbinds (match `y~lparam)] 
-      (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(+ x y)))))))) 
+  (matches b0) (eval (applyBinds b0 `(fn [~lparam] (let [~lbinds (match `params~lparam)] 
+      (cond (matches ~lbinds) (eval (applyBinds ~lbinds ` (matches b0 ) (eval (applyBinds b0`(+ x y))) 
+ ))))))) 
  
  true (list :patternmatchfail add params) )))
 

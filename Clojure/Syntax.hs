@@ -65,7 +65,7 @@ data Sexp = Atomic Atom
          | WildCard
          | Void 
          | Cons
-         | Lambda Sexp Sexp
+         | Lambda [Sexp] Sexp
          -- ^ cons with it's element as a general sexp
          | IF Sexp Sexp Sexp             
          -- ^ if expr then expr else expr (conditionals)

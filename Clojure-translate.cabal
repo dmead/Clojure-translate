@@ -10,6 +10,6 @@ Cabal-Version: >=1.2
 
 Executable Clojure-Translate
   Main-is: Main.hs
-  Build-Depends: base >= 3, haskell-src-exts >=1.10.2
+  Build-Depends: base >= 3, haskell-src-exts >=1.10.2, uniplate >=1.6
 
 
