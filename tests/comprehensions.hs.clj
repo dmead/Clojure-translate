@@ -2,8 +2,8 @@
   (let [ 
     b0  (match `(() () ) params)
     b1  (match `((cons   x  xs) (cons   y  ys) ) params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
  (matches b0 ) (eval (applyBinds b0`())) 
  (matches b1 ) (eval (applyBinds b1`(cons  (list x y ) (tzip (list xs ys ))))) 
@@ -14,11 +14,10 @@ lbinds (gensym "b1")  ]
 (defn listid[params]
   (let [ 
     b0  (match `n params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(cons  x ()))) 
- ) n )))) 
+ (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparams](cons  x ())) n )))) 
  
  true (list :patternmatchfail listid params) )))
 
@@ -26,49 +25,36 @@ lbinds (gensym "b1")  ]
 (defn squareall[params]
   (let [ 
     b0  (match `l params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(cons  (* x x) ()))) 
- ) l )))) 
+ (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparams](cons  (* x x) ())) l )))) 
  
  true (list :patternmatchfail squareall params) )))
 
 
 (defn qs[params]
   (let [ 
-	b0  (match `() params)
-	b1  (match `(cons   h  t) params)
-	lparam (gensym "l") 
-	lbinds (gensym "b1")
-	]
+    b0  (match `() params)
+    b1  (match `(cons   h  t) params)
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
-     (matches b0 )
-     (eval (applyBinds b0`())) 
-     (matches b1 )
-     (eval (applyBinds b1
-		       `(++
-			 (qs (flatmap (list (fn [~lparam] (matches b0 )
-					      (eval (applyBinds b0`(if (<= x h)(cons  x ())()))) ) t )))
-			 (cons  h (qs (flatmap
-				       (list (fn [~lparam] (matches b0 )
-					       (eval (applyBinds b0
-								 `(if (> x h)(cons  x ())())))  ) t ))))))) 
+ (matches b0 ) (eval (applyBinds b0`())) 
+ (matches b1 ) (eval (applyBinds b1`(++ (qs (flatmap (list (fn [~lparams](if (<= x h)(cons  x ())())) t ))) (cons  h (qs (flatmap (list (fn [~lparams](if (> x h)(cons  x ())())) t ))))))) 
  
-     true (list :patternmatchfail qs params) )))
+ true (list :patternmatchfail qs params) )))
 
 
 (defn sort[params]
   (let [ 
     b0  (match `() params)
     b1  (match `(cons   x  xs) params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
  (matches b0 ) (eval (applyBinds b0`())) 
- (matches b1 ) (eval (applyBinds b1`(++ (sort (flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(if (< y x)(cons  y ())()))) 
- ) xs ))) (++ (list x ) (sort (flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(if (>= y x)(cons  y ())()))) 
- ) xs ))))))) 
+ (matches b1 ) (eval (applyBinds b1`(++ (sort (flatmap (list (fn [~lparams](if (< y x)(cons  y ())())) xs ))) (++ (list x ) (sort (flatmap (list (fn [~lparams](if (>= y x)(cons  y ())())) xs ))))))) 
  
  true (list :patternmatchfail sort params) )))
 
@@ -76,11 +62,10 @@ lbinds (gensym "b1")  ]
 (defn vecAdd[params]
   (let [ 
     b0  (match `(xs ys ) params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(cons  (+ x y) ()))) 
- ) (tzip (list xs ys )) )))) 
+ (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparams](cons  (+ x y) ())) (tzip (list xs ys )) )))) 
  
  true (list :patternmatchfail vecAdd params) )))
 
@@ -88,11 +73,10 @@ lbinds (gensym "b1")  ]
 (defn singletons[params]
   (let [ 
     b0  (match `xs params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(cons  x ()))) 
- ) xs )))) 
+ (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparams](cons  x ())) xs )))) 
  
  true (list :patternmatchfail singletons params) )))
 
@@ -100,12 +84,10 @@ lbinds (gensym "b1")  ]
 (defn c1[params]
   (let [ 
     b0  (match `_ params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(cons  x ()))) 
- ) xs )))) 
- ) (list (list (list 1 2 ) (list 3 4 ) ) (list (list 5 4 ) (list 3 2 ) ) ) )))) 
+ (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparams](flatmap (list (fn [~lparams](cons  x ())) xs ))) (list (list (list 1 2 ) (list 3 4 ) ) (list (list 5 4 ) (list 3 2 ) ) ) )))) 
  
  true (list :patternmatchfail c1 params) )))
 
@@ -113,12 +95,10 @@ lbinds (gensym "b1")  ]
 (defn cartesian[params]
   (let [ 
     b0  (match `(s1 s2 ) params)
- lparam (gensym "l") 
-lbinds (gensym "b1")  ]
+      lparam (gensym "l") 
+     lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparam] (matches b0 ) (eval (applyBinds b0`(cons  (list x y ) ()))) 
- ) s2 )))) 
- ) s1 )))) 
+ (matches b0 ) (eval (applyBinds b0`(flatmap (list (fn [~lparams](flatmap (list (fn [~lparams](cons  (list x y ) ())) s2 ))) s1 )))) 
  
  true (list :patternmatchfail cartesian params) )))
 

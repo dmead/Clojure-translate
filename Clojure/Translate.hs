@@ -53,7 +53,8 @@ matchname (Match _  name _  _   _ _ ) =  name
 translateDecl :: Decl -> Sexp
 translateDecl (FunBind matches) = 
     let funcname = translateName . matchname . head $ matches        
-    in unpackLambdas $ Func funcname (map (translateMatch) matches)
+    in Func funcname (map (translateMatch False ) matches)
+--    in unpackLambdas $ Func funcname (map (translateMatch False ) matches)
 
 {-
 translateDecl (PatBind srcloc pat (Maybe atype) rhs binds) =
@@ -129,19 +130,27 @@ translateExp (HS.ListComp exp stmts) = translateExp $ DS.deSugar  $ (HS.ListComp
   into a clojure function definition
  -}
 
-translateMatch :: Match -> Sexp
-translateMatch (Match _  name (p1:[])  _   (UnGuardedRhs rhs) binds) =
-   BMatch (translatePattern p1, translateExp rhs)
+--translateMatch :: Match -> Sexp
+--translateMatch curried (Match _  name (p1:[])  _    (UnGuardedRhs rhs) binds)  =
+ --           (BMatch (translatePattern p1, translateExp rhs))
 
-translateMatch (Match _  name (p1:p2:pats)  _   (UnGuardedRhs rhs) binds) 
-    =  BMatch 
-       ((translatePattern p1), Sexp.Lambda [(translatePattern p2)]
-        (translateMatch (Match (SrcLoc "" 0 0) name  (p2:pats) Nothing (UnGuardedRhs rhs) binds)))
-{-
-translateMatch (Match _  name (p1:pats)  _   (UnGuardedRhs rhs) binds) 
-    =  Sexp.Lambda (translatePattern p1)
-        (translateMatch (Match (SrcLoc "" 0 0) name  pats Nothing (UnGuardedRhs rhs) binds))
--}
+translateMatch curried (Match _  name (p1:[])  _    (UnGuardedRhs rhs) binds)  =
+    if (curried == True) 
+    then Sexp.Lambda [translatePattern p1]
+             (BMatch (translatePattern p1, translateExp rhs))
+    else (BMatch (translatePattern p1, translateExp rhs))
+
+translateMatch curried (Match _  name (p1:pats)  _   (UnGuardedRhs rhs) binds) 
+  =   if (curried == True)
+      then Sexp.Lambda [translatePattern p1] 
+               (BMatch (translatePattern p1, 
+            (translateMatch True (Match (SrcLoc "" 0 0) name  (pats) Nothing (UnGuardedRhs rhs) binds))))
+      else           
+          (BMatch 
+           (translatePattern p1,     
+                (translateMatch True (Match (SrcLoc "" 0 0) name  (pats) Nothing (UnGuardedRhs rhs) binds))))
+           
+
 
                   
 
@@ -155,8 +164,6 @@ translateLiteral (HS.Int x) = Atomic (Sexp.Int x)
 --translateName :: Name -> Atom
 translateName (HS.Ident x) = Atomic $ Sexp.Ident x
 translateName (HS.Symbol x) = Atomic $ Sexp.Symbol x
-
-
 
 
 

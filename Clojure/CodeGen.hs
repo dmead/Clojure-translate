@@ -102,8 +102,8 @@ gensexp x _ = error ("can't gen this:  " ++ (show x))
               
 --all 
 genLambda (Lambda exp body) = 
-    gparen $ "fn " ++ (gbrackets $ "~lparam")  ++ (gen body)
---    gparen $ "fn " ++ (gbrackets $ (gen exp))  ++ (gen body)
+    gparen $ "fn " ++ "[~lparams]"  ++ (gen body)
+--    gparen $ "fn " ++ (gbrackets $ (concat (map gen exp)))  ++ (gen body)
 
 genatoms :: [String] -> [Char]
 genatoms (x:xs) = gparen $  (foldr (\q -> ((q ++ " ") ++)) [] (x:xs))
@@ -132,34 +132,40 @@ genbindpair ((BMatch (pat,func)):xs) num = (replicate  4 ' ') ++
                                   "  (match `" ++(gen pat) ++ " params" ++")" ++ "\n"
                                   ++ (genbindpair xs (num+1))
 
+genbindpair x num = "Couldn't generate " ++ show x
+
+
 
 genBody (Atomic (Ident x)) = x
 genBody (Lambda pat (BMatch (p1,body))) = 
-    "'(fn [params]" ++ 
-    "    (let [~lbinds (match `" ++ (gen (head pat)) ++ "~lparam)] \n " ++
+    "`(fn [~lparam]" ++ 
+    "    (let [~lbinds (match `" ++ (gen (head pat)) ++ " ~lparam)] \n " ++
     "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
 
 genBody x = "`" ++ gen x
 
-
+{-
 genBodytoplevel (Lambda pat (BMatch (p1, body))) = 
-    "`(fn [~lparam] (let [~lbinds (match `" ++ (gen (head pat)) ++ "~lparam)] \n " ++         
- "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
+    "`(fn [~lparam] \n" ++
+    "     (let [~lbinds (match `" ++ (gen (head pat)) ++ " ~lparam)] \n " ++         
+    "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
 genBodytoplevel x = (genBody x)
-
+-}
 genStmt (Gen e1 e2) = "(" ++ (gen e1) ++ " <- " ++ (gen e2) ++ ")"
 genStmt (Qualifier e) = gen e
 
 --(> (count bindings0) 0)
 gencondpair :: [Sexp] -> Int -> String
 gencondpair [] num = " "
-gencondpair ((BMatch  (_ ,Lambda pat body)):morepats) num =
-           "  (matches b"++(show num)++ ") (eval (applyBinds b"++(show num)++ " "++
-                            (genBodytoplevel (Lambda pat body)) ++ ")) \n" ++
-                                                         (gencondpair morepats (num+1))
+gencondpair ((BMatch  (_ ,Lambda pat body)):morepairs) num =
+    "  (matches b"++(show num)++ ") (eval (applyBinds b"++(show num)++ " "++
+                      (genBody (Lambda pat body)) ++ ")) \n" ++
+                                (gencondpair morepairs (num+1))
 gencondpair ((BMatch (pat,func)):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) 
-                                  ++ (genBodytoplevel func) ++ ")) \n" ++
+                                  ++ (genBody func) ++ ")) \n" ++
                                   (gencondpair xs (num+1))
+
+gencondpair x num= "Coulldn't gen " ++ (show x) ++ " in gencondpair \n"
 
                             
 
@@ -170,10 +176,10 @@ genfunction name pairs indent =
         matches = gencondpair pairs 0 
     in "(defn " ++ (gen name) ++ "[params]" ++ "\n" ++
         "  (let [ \n" ++ bindings ++
-                          "lparam (gensym \"l\") \n" ++
-                         "lbinds (gensym \"b1\")  ]\n" ++
+                          "     lparam (gensym \"l\") \n" ++
+                          "     lbinds (gensym \"b1\")  ]\n" ++
                           "    (cond \n" ++ matches ++ "\n true (list :patternmatchfail " 
-                               ++ (gen name) ++ " params) )))\n\n\n"
+                          ++ (gen name) ++ " params) )))\n\n\n"
 
 {- | 'genfunction' does the code generation for a function definition form. 
 
