@@ -5,8 +5,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`())) 
- (matches b1 ) (eval (applyBinds b1`(if (<= q x)(cons  x (filtergte (list q xs )))(filtergte (list q xs ))))) 
+ (matches b0 ) (eval (applyBinds b0 `())) 
+ (matches b1 ) (eval (applyBinds b1 `(if (<= q x)(cons  x (filtergte (list q xs )))(filtergte (list q xs ))))) 
  
  true (list :patternmatchfail filtergte params) )))
 
@@ -18,8 +18,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`())) 
- (matches b1 ) (eval (applyBinds b1`(if (> q x)(++ (list x ) (filterLT (list q xs )))(filterLT (list q xs ))))) 
+ (matches b0 ) (eval (applyBinds b0 `())) 
+ (matches b1 ) (eval (applyBinds b1 `(if (> q x)(++ (list x ) (filterLT (list q xs )))(filterLT (list q xs ))))) 
  
  true (list :patternmatchfail filterLT params) )))
 
@@ -31,8 +31,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`())) 
- (matches b1 ) (eval (applyBinds b1`(++ (quicksort (filterLT (list x xs ))) (++ (list x ) (quicksort (filtergte (list x xs ))))))) 
+ (matches b0 ) (eval (applyBinds b0 `())) 
+ (matches b1 ) (eval (applyBinds b1 `(++ (quicksort (filterLT (list x xs ))) (++ (list x ) (quicksort (filtergte (list x xs ))))))) 
  
  true (list :patternmatchfail quicksort params) )))
 
@@ -44,8 +44,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`())) 
- (matches b1 ) (eval (applyBinds b1`(cons  x (mytake (list (- n 1) xs ))))) 
+ (matches b0 ) (eval (applyBinds b0 `())) 
+ (matches b1 ) (eval (applyBinds b1 `(cons  x (mytake (list (- n 1) xs ))))) 
  
  true (list :patternmatchfail mytake params) )))
 
@@ -58,9 +58,9 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`0)) 
- (matches b1 ) (eval (applyBinds b1`1)) 
- (matches b2 ) (eval (applyBinds b2`(+ (fib (- n 1)) (fib (- n 2))))) 
+ (matches b0 ) (eval (applyBinds b0 `0)) 
+ (matches b1 ) (eval (applyBinds b1 `1)) 
+ (matches b2 ) (eval (applyBinds b2 `(+ (fib (- n 1)) (fib (- n 2))))) 
  
  true (list :patternmatchfail fib params) )))
 
@@ -72,8 +72,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0x)) 
- (matches b1 ) (eval (applyBinds b1`(nth (list (- n 1) xs )))) 
+ (matches b0 ) (eval (applyBinds b0 x)) 
+ (matches b1 ) (eval (applyBinds b1 `(nth (list (- n 1) xs )))) 
  
  true (list :patternmatchfail nth params) )))
 

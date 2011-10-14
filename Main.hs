@@ -1,5 +1,3 @@
-
-
 {- |
 Module: 'Translator'
 
@@ -14,6 +12,7 @@ This will:
 
  -call the code generator in Clojure.CodeGen and write the results to a file
 -}
+{-# OPTIONS_GHC -XDeriveDataTypeable #-}
 module Main where
 
 

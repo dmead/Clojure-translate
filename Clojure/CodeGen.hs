@@ -77,32 +77,30 @@ gensexp (Plist x) spaces =
     gparen $ (foldr (\y -> (((gen y)++ " ") ++)) [] x)
 gensexp (Apply x y) spaces =  gparen $ (gen x) ++ " " ++ (genParam y)
 gensexp (InfixApply x op z) spaces = 
-    gparen $ (gensexp op spaces) ++ " " ++ 
-             (genParam x) ++ " " ++ (genParam z) 
-
-
+    gparen $ ((gensexp op spaces) ++ " " ++ 
+             (genParam x) ++ " " ++ (genParam z)) 
 gensexp (PInfixApply x op z) spaces = 
-    gparen $ (gensexp op spaces) ++ space ++
+    gparen $ ((gensexp op spaces) ++ space ++
              (gen x)  ++ space ++ 
-             (gen z)
-gensexp (Lambda params body) spaces = 
-    genLambda (Lambda params body)
-
+             (gen z))
+gensexp (Lambda params body) spaces =  genLambda (Lambda params body)
 gensexp (IF x y z) spaces = gparen $ "if " ++ (gen x) ++ (gen y) ++(gen z)
-
-
---this is so broken
---gensexp (ListComp exp quals) spaces = gparen $ "listcomp " ++ (gen exp) ++ 
---                               (foldr (\x -> ((genStmt x) ++)) [] quals) ++ gnil 
-
 gensexp (BMatch (pat, body)) spaces = gencondpair [(BMatch (pat,body))] 0
-
+gensexp (Gensym x) y = "(gensym " ++ gen x ++ ")"
 gensexp x _ = error ("can't gen this:  " ++ (show x))
  
               
 --all 
-genLambda (Lambda exp body) = 
-    gparen $ "fn " ++ "[~lparams]"  ++ (gen body)
+
+genLambda (Lambda pat (BMatch (p1,body))) = 
+    "`(fn [~lparam]" ++ 
+    "    (let [~lbinds (match `" ++ (gen (head pat)) ++ " ~lparam)] \n " ++
+    "     (cond (matches ~lbinds) (eval (applyBinds ~lbinds " ++ (genBody body) ++  ")))))"
+genLambda (Lambda pat body) = 
+    "(fn ["  ++ (gen (head pat)) ++ "]" ++ (gen body) ++ ")"
+
+
+--    gparen $ "fn " ++ "[" ++ (gen (head exp)) ++ "]"  ++ (gen body)
 --    gparen $ "fn " ++ (gbrackets $ (concat (map gen exp)))  ++ (gen body)
 
 genatoms :: [String] -> [Char]
@@ -161,9 +159,7 @@ gencondpair ((BMatch  (_ ,Lambda pat body)):morepairs) num =
     "  (matches b"++(show num)++ ") (eval (applyBinds b"++(show num)++ " "++
                       (genBody (Lambda pat body)) ++ ")) \n" ++
                                 (gencondpair morepairs (num+1))
-gencondpair ((BMatch (pat,func)):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) 
-                                  ++ (genBody func) ++ ")) \n" ++
-                                  (gencondpair xs (num+1))
+gencondpair ((BMatch (pat,func)):xs) num = " (matches b"++(show num)++ " ) (eval (applyBinds b"++(show num) ++ " " ++ (genBody func) ++ ")) \n" ++ (gencondpair xs (num+1))
 
 gencondpair x num= "Coulldn't gen " ++ (show x) ++ " in gencondpair \n"
 

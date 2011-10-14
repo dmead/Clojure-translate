@@ -5,7 +5,7 @@ These types express the structure of s-expressions while having special forms fo
 things like function defintition, patterns, pattern matching and different types of list atoms.
 
 -}
-
+{-# OPTIONS_GHC -XDeriveDataTypeable #-}
 module Clojure.Syntax where
 
 
@@ -79,6 +79,7 @@ data Sexp = Atomic Atom
          -- ^function def and it's pattern cases
          | List [Sexp]
          -- ^ regular s-expression list
+         | Gensym Sexp
          | Tuple [Sexp]
          | Ptuple [Sexp]
          | Plist [Sexp]
@@ -86,6 +87,7 @@ data Sexp = Atomic Atom
          | Nil      
          | Let Binds Sexp
          | Do [Sexp]
+         | Genpair (Sexp, Sexp)
            deriving (Show, Eq, Data, Typeable)
 
 

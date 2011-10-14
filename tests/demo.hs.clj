@@ -4,7 +4,7 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`(+ x y))) 
+ (matches b0 ) (eval (applyBinds b0 `(+ x y))) 
  
  true (list :patternmatchfail add params) )))
 
@@ -28,8 +28,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`0)) 
- (matches b1 ) (eval (applyBinds b1`(+ x (mysum xs)))) 
+ (matches b0 ) (eval (applyBinds b0 `0)) 
+ (matches b1 ) (eval (applyBinds b1 `(+ x (mysum xs)))) 
  
  true (list :patternmatchfail mysum params) )))
 
@@ -56,8 +56,8 @@
       lparam (gensym "l") 
      lbinds (gensym "b1")  ]
     (cond 
- (matches b0 ) (eval (applyBinds b0`())) 
- (matches b1 ) (eval (applyBinds b1`(cons  (f x) (mymap1 (list f xs ))))) 
+ (matches b0 ) (eval (applyBinds b0 `())) 
+ (matches b1 ) (eval (applyBinds b1 `(cons  (f x) (mymap1 (list f xs ))))) 
  
  true (list :patternmatchfail mymap1 params) )))
 
@@ -69,7 +69,7 @@
      lbinds (gensym "b1")  ]
     (cond 
   (matches b0) (eval (applyBinds b0 `(fn [~lparam]    (let [~lbinds (match `ys ~lparam)] 
-      (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(flatmap (list (fn [~lparams](flatmap (list (fn [~lparams](cons  (list x y ) ())) ys ))) xs ))))))))) 
+      (cond (matches ~lbinds) (eval (applyBinds ~lbinds `(flatmap (list (fn [x](flatmap (list (fn [y](cons  (list x y ) ())) ys ))) xs ))))))))) 
  
  true (list :patternmatchfail cart params) )))
 
